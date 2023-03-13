@@ -41,16 +41,29 @@ const url = "https://us21.api.mailchimp.com/3.0/lists/1a5554c3fd"
 //options
 const options ={
   method:'POST',
-  auth : 'Prashant:62204e6584db85683867d7616bc838b4-us21'
+  auth : 'Prashant:1e208f50224e6dbcdbd22d49d9454365-us21'
 }
 const request = https.request(url,options, function(response){
+          if(response.statusCode===200){
+              res.sendFile(path.join(__dirname,'/success.html'));
+          }else{
+            res.sendFile(path.join(__dirname,'/failure.html'));
+          }
+
+
   response.on("data",function(data){
-    console.log(JSON.parse(data));
+  console.log(JSON.parse(data));
   })
 })
 
-request.write(jsonData);
+//post data
+// request.write(jsonData);
 request.end();
+})
+
+//failure route
+app.post('/failure',function(req,res){
+  res.redirect("/");
 })
 
 app.listen(3000,function(){
